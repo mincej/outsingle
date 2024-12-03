@@ -40,7 +40,7 @@ def get_z_scores(data, l_ji_other__=None):
     return z_scores, l_ji__
 
 
-def run(data_file):
+def run(data_file, overwrite):
     # dl = h.DataLoader(outpyr.settings, data_file)
     # df = dl.data_normalized_sf
     # data_cleaned = df.values.astype(np.float64)
@@ -51,20 +51,22 @@ def run(data_file):
     z_scores, l_ji__ = get_z_scores(data)
     # print(np.any(np.abs(z_scores) > THRESHOLD))
     z_scores, _ = get_z_scores(data_cleaned, l_ji__)
-
     fname = os.path.splitext(data_file)[0] + '-fzse-zs.csv'
-    h.save_dfz_to_csv(pd.DataFrame(z_scores, index=df.index, columns=df.columns), fname)
+    if overwrite:
+        print("--overwrite specified. Overwriting existing output.")
+    h.save_dfz_to_csv(pd.DataFrame(z_scores, index=df.index, columns=df.columns), fname, overwrite)
     return os.path.abspath(fname)
 
 
 def main():
     parser = argparse.ArgumentParser(description='Train model.')
     parser.add_argument('data_file', metavar='data_file', type=str, nargs=1, help='file with count data')
+    parser.add_argument('--overwrite', action='store_true', help='overwrite existing output')
     args = parser.parse_args()
     # print(args.corrected)
     data_file = args.data_file[0]
-
-    run(data_file)
+    overwrite = args.overwrite
+    run(data_file, overwrite)
 
 
 if __name__ == '__main__':

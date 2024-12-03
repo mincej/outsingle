@@ -29,21 +29,20 @@ def csv_to_df(file_name, dtype=COUNT_INT):
         text = text[1:]
 
     has_index = False
-    index_col = None
-    tmp_df = pd.read_csv(StringIO(text), sep='\t', nrows=0)
+    tmp_df = pd.read_csv(StringIO(text), sep='\t', nrows=1, index_col=False)
 
     dtypes = {}
     for idx, column in enumerate(tmp_df.columns):
-        if idx == 0 and isinstance(tmp_df.at[idx, column], str):
+        if idx == 0 and isinstance(tmp_df.at[0, column], str):
             has_index = True
-            index_col = column
-        dtypes[column] = dtype
+        else:
+            dtypes[column] = dtype
 
     if has_index:
         return pd.read_csv(
             StringIO(text),
             sep='\t',
-            index_col=index_col,
+            index_col=0,
             dtype=dtypes,
         )
     else:
@@ -94,13 +93,15 @@ def get_size_factors(df):
     return size_factors
 
 
-def save_df_to_csv(data_df, file_name):
-    if not os.path.exists(file_name):
+def save_df_to_csv(data_df, file_name, overwrite=False):
+    if not os.path.exists(file_name) or overwrite:
         data_df.to_csv(file_name, sep='\t')
 
         with open(file_name, 'r') as f:
             # Removing the initial separator, as it makes problems for pd.read_csv
-            text = f.read()[1:]
+            text = f.read()
+            if text[0] == '\t':
+                text = text[1:]
 
         with open(file_name, 'w') as f:
             f.write(text)
@@ -108,11 +109,11 @@ def save_df_to_csv(data_df, file_name):
         print('The file', file_name, 'already exists, not saving...')
 
 
-def save_dfz_to_csv(dfz, filename):
-    save_df_to_csv(dfz, filename)
+def save_dfz_to_csv(dfz, filename, overwrite):
+    save_df_to_csv(dfz, filename, overwrite)
     dfp = pd.DataFrame(convert_zscores_to_pvalues(dfz.values), index=dfz.index, columns=dfz.columns)
     filename_pv = os.path.splitext(filename)[0] + '-pv' + os.path.splitext(filename)[1]
-    save_df_to_csv(dfp, filename_pv)
+    save_df_to_csv(dfp, filename_pv, overwrite)
 
 
 def convert_zscores_to_pvalues(zs__):
