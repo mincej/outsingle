@@ -95,7 +95,10 @@ def get_size_factors(df):
 
 def save_df_to_csv(data_df, file_name, overwrite=False):
     if not os.path.exists(file_name) or overwrite:
-        data_df.to_csv(file_name, sep='\t')
+        if data_df.index.tolist() == list(range(data_df.shape[0])):
+            data_df.to_csv(file_name, sep='\t', index=False)
+        else:
+            data_df.to_csv(file_name, sep='\t')
 
         with open(file_name, 'r') as f:
             # Removing the initial separator, as it makes problems for pd.read_csv
