@@ -79,7 +79,7 @@ confounding effects (present in the data) with::
  python inject_outliers_fzse_pysvdcc.py some-dataset/some-dataset.tsv
 
 That command will produce several files with artificial outliers
-(i.e., original data + outliers). These are CSV files but with a ".txt"
+(i.e., original data + outliers). These are TSV files but with a ".txt"
 extension.
 You can edit that script to change some parameters of the injection
 process: frequency, magnitudes of outliers, whether the outliers
@@ -95,10 +95,10 @@ are present in the data, and ``-z6.00`` indicates that the z-score magnitude
 of the outliers is 6.
 
 The tool will also produce corresponding outlier mask (omask) files which
-are CSV files (again ending with ".txt")
+are TSV files (again ending with ".txt")
 containing information about the exact "coordinates"
 of injected outliers' positions.
-Both types of CSV files contain data matrices that are of the same "dimension"
+Both types of TSV files contain data matrices that are of the same "dimension"
 as the data matrix of some-dataset.tsv, and the outlier mask files
 have all zeros except the "coordinates" of outilers which are 1 or -1
 (depending on the z-score of the outlier).
