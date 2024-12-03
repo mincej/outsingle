@@ -29,19 +29,21 @@ def csv_to_df(file_name, dtype=COUNT_INT):
         text = text[1:]
 
     has_index = False
+    index_col = None
     tmp_df = pd.read_csv(StringIO(text), sep='\t', nrows=0)
 
     dtypes = {}
     for idx, column in enumerate(tmp_df.columns):
         if idx == 0 and isinstance(tmp_df.at[idx, column], str):
             has_index = True
+            index_col = column
         dtypes[column] = dtype
 
     if has_index:
         return pd.read_csv(
             StringIO(text),
             sep='\t',
-            index_col=0,
+            index_col=index_col,
             dtype=dtypes,
         )
     else:
