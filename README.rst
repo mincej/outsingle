@@ -47,14 +47,14 @@ is located.
 You can run the various OutSingle sub-tools
 on your data as follows::
 
- python fast_zscore_estimation.py some-dataset/some-dataset.csv
+ python fast_zscore_estimation.py some-dataset/some-dataset.tsv
 
 That will estimate a simple z-score for the dataset.
 The only parameter that you have to supply
 to ``fast_zscore_estimation.py`` is the path to the dataset file
-(here it's ``some-dataset/some-dataset.csv``).
+(here it's ``some-dataset/some-dataset.tsv``).
 The dataset file should be a tab-separated
-pandas-compatible CSV file containing
+pandas-compatible file containing
 gene expression counts.
 Its index (first column) should
 contain names of genes,
@@ -67,16 +67,16 @@ integer count data.
 After z-score estimation, you can calculate the final
 OutSingle score with::
 
- python optht_svd_zs.py some-dataset/some-dataset-fzse-zs.csv
+ python optht_svd_zs.py some-dataset/some-dataset-fzse-zs.tsv
  
-That will produce a file ``some-dataset/some-dataset-fzse-zs-svd-optht-zs.csv``
+That will produce a file ``some-dataset/some-dataset-fzse-zs-svd-optht-zs.tsv``
 which can be considered as the final OutSingle "outlierness" score
 for the dataset.
 
 You can also inject artificial outliers that are masked by
 confounding effects (present in the data) with::
 
- python inject_outliers_fzse_pysvdcc.py some-dataset/some-dataset.csv
+ python inject_outliers_fzse_pysvdcc.py some-dataset/some-dataset.tsv
 
 That command will produce several files with artificial outliers
 (i.e., original data + outliers). These are CSV files but with a ".txt"
@@ -99,7 +99,7 @@ are CSV files (again ending with ".txt")
 containing information about the exact "coordinates"
 of injected outliers' positions.
 Both types of CSV files contain data matrices that are of the same "dimension"
-as the data matrix of some-dataset.csv, and the outlier mask files
+as the data matrix of some-dataset.tsv, and the outlier mask files
 have all zeros except the "coordinates" of outilers which are 1 or -1
 (depending on the z-score of the outlier).
 
@@ -110,7 +110,7 @@ an OutSingle score for them. E.g.::
  python fast_zscore_estimation.py some-dataset/some-dataset-wo-f1-b-z6.00.txt
  python optht_svd_zs.py some-dataset/some-dataset-wo-f1-b-z6.00-fzse-zs.txt
 
-That will produce a ``some-dataset/some-dataset-wo-f1-b-z6.00-fzse-zs-svd-optht-zs.csv``
+That will produce a ``some-dataset/some-dataset-wo-f1-b-z6.00-fzse-zs-svd-optht-zs.tsv``
 OutSingle score file.
 
 Further info

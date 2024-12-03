@@ -36,7 +36,7 @@ def main():
 
 def process(data_file, overwrite):
     out_basename = os.path.splitext(data_file)[0] + '-svd-optht'
-    out_name = out_basename + '-zs.csv'
+    out_name = out_basename + '-zs.tsv'
     if os.path.isfile(out_name) and not overwrite:
         print('File', out_name, 'already exists.')
         return out_name
@@ -71,14 +71,14 @@ def process(data_file, overwrite):
 
         # _data2 = standardize(data - data_new, axis=None)
         if transpose:
-            # h.save_dfz_to_csv(pd.DataFrame(data_new.transpose(), index=df.index, columns=df.columns), out_basename + '-signal-t-zs.csv')
-            # h.save_dfz_to_csv(pd.DataFrame((data - data_new).transpose(), index=df.index, columns=df.columns), out_basename + '-won-t-zs.csv')
-            h.save_dfz_to_csv(pd.DataFrame(_data2.transpose(), index=df.index, columns=df.columns), out_basename + '-t-zs.csv', overwrite)
+            # h.save_dfz_to_csv(pd.DataFrame(data_new.transpose(), index=df.index, columns=df.columns), out_basename + '-signal-t-zs.tsv')
+            # h.save_dfz_to_csv(pd.DataFrame((data - data_new).transpose(), index=df.index, columns=df.columns), out_basename + '-won-t-zs.tsv')
+            h.save_dfz_to_csv(pd.DataFrame(_data2.transpose(), index=df.index, columns=df.columns), out_basename + '-t-zs.tsv', overwrite)
         else:
-            # h.save_dfz_to_csv(pd.DataFrame(data_new, index=df.index, columns=df.columns), out_basename + '-signal-zs.csv')
-            # h.save_dfz_to_csv(pd.DataFrame(data - data_new, index=df.index, columns=df.columns), out_basename + '-won-zs.csv')
+            # h.save_dfz_to_csv(pd.DataFrame(data_new, index=df.index, columns=df.columns), out_basename + '-signal-zs.tsv')
+            # h.save_dfz_to_csv(pd.DataFrame(data - data_new, index=df.index, columns=df.columns), out_basename + '-won-zs.tsv')
             h.save_dfz_to_csv(pd.DataFrame(_data2, index=df.index, columns=df.columns), out_name, overwrite)
-        # h.save_dfz_to_csv(pd.DataFrame(zs_outrider_ideal__, index=df.index, columns=df.columns), out_basename + '-ori-zs.csv')
+        # h.save_dfz_to_csv(pd.DataFrame(zs_outrider_ideal__, index=df.index, columns=df.columns), out_basename + '-ori-zs.tsv')
 
     return out_name
 

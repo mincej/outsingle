@@ -51,7 +51,7 @@ def run(data_file, overwrite):
     z_scores, l_ji__ = get_z_scores(data)
     # print(np.any(np.abs(z_scores) > THRESHOLD))
     z_scores, _ = get_z_scores(data_cleaned, l_ji__)
-    fname = os.path.splitext(data_file)[0] + '-fzse-zs.csv'
+    fname = os.path.splitext(data_file)[0] + '-fzse-zs.tsv'
     if overwrite:
         print("--overwrite specified. Overwriting existing output.")
     h.save_dfz_to_csv(pd.DataFrame(z_scores, index=df.index, columns=df.columns), fname, overwrite)
