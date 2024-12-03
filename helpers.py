@@ -28,18 +28,28 @@ def csv_to_df(file_name, dtype=COUNT_INT):
         # Removing the initial separator, if any, as it makes problems for pd.read_csv
         text = text[1:]
 
+    has_index = False
+    tmp_df = pd.read_csv(StringIO(text), sep='\t', nrows=0)
+
     dtypes = {}
-    for column in pd.read_csv(
-            StringIO(text),
-            sep='\t',
-        nrows=0).columns:
+    for idx, column in enumerate(tmp_df.columns):
+        if idx == 0 and isinstance(tmp_df.at[idx, column], str):
+            has_index = True
         dtypes[column] = dtype
 
-    return pd.read_csv(
-        StringIO(text),
-        sep='\t',
-        dtype=dtypes,
-    )
+    if has_index:
+        return pd.read_csv(
+            StringIO(text),
+            sep='\t',
+            index_col=0,
+            dtype=dtypes,
+        )
+    else:
+        return pd.read_csv(
+            StringIO(text),
+            sep='\t',
+            dtype=dtypes,
+        )
 
 
 def get_size_factors(df):
